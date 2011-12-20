@@ -6,7 +6,7 @@
       private $path;
       private $domain;
 
-      function __construct($storage = "wpkvs_", $expire="+30 days", $path="/", $domain=null, $onDemand = true)
+      function __construct($storage = "cookiekvs", $expire="+30 days", $path="/", $domain=null, $onDemand = true)
       {
          $this->expire = strtotime($expire);
          $this->path = $path;
