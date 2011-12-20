@@ -1,5 +1,5 @@
 <?php
-   /* KeyValueStore
+   /* KeyValueStore 1.
     *
     * The idea here is to abstract storing data for simple projects that are dependent
     * on other products for storing their data (MySQL, WordPress options, etc.). Makes
@@ -12,6 +12,9 @@
       public function get($key);
       public function put($key, $value);
       public function delete($key);
+
+      public function clear();
+      public function sizeOf();
 
       public function import($kvs_export);   // imports a previously exported KVS store
       public function export();              // exports a KVS store, using KVS_*PORT_FUNCTION
@@ -26,7 +29,19 @@
 
       function __construct($onDemand = true)
       {
+         $this->clear();
          $this->onDemand = $onDemand;
+      }
+
+      public function update() { trigger_error("Update function not implemented (don't use KVS directly).", E_USER_NOTICE); }
+
+      public function clear()
+      {
+         $this->data = array();
+      }
+      public function sizeOf()
+      {
+         return count($this->data);
       }
 
       public function get($key)
@@ -44,7 +59,7 @@
       public function delete($key)
       {
          unset($this->data[$key]);
-         if($this->onDemand);
+         if($this->onDemand)
             $this->update();
       }
 

@@ -6,6 +6,8 @@
       {
          $this->storage = $storage;
          parent::__construct($onDemand);
+
+         $this->load();
       }
 
       public function load()
