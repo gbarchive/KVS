@@ -35,6 +35,8 @@
          $this->onDemand = $onDemand;
       }
 
+      public function setOnDemand($od) { return $this->onDemand = $od; }
+
       public function update() { trigger_error("Update function not implemented (don't use KVS directly).", E_USER_NOTICE); }
 
       public function clear()

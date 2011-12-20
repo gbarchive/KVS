@@ -14,7 +14,8 @@ abstract class KVSTester extends PHPUnit_Framework_TestCase {
    private $instanceOf = "KVS";
 
    protected function setUp() {
-      $this->object = new $this->instanceOf(false);  // must pass onDemand=false, because its useless without a useful implementation.
+      $this->object = new $this->instanceOf();
+      $this->object->setOnDemand(false); // must pass onDemand=false, because its useless without a useful implementation.
    }
 
    private function createTestData(){
