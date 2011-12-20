@@ -5,6 +5,8 @@
     * on other products for storing their data (MySQL, WordPress options, etc.). Makes
     * unit testing easier. Could be coupled with a distributed Key-Value implementation
     * for cool NoSQL problems.
+    *
+    * Copyright © 2011 Giuseppe Burtini <joe@truephp.com>. All rights reserved.
     */
 
    interface KeyValueStore

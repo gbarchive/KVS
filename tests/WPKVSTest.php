@@ -4,6 +4,8 @@ require_once dirname(__FILE__) . '/genericTest.php';
 /*
  * This is a bad solution, but it allows quick test runs of the WPKVS implementation
  * without loading all of WordPress and a mock database.
+ *
+ * We should ideally replace this with a proper mock implementation: https://github.com/johnbintz/mockpress
  */
 global $temp_storage;
 $temp_storage = array();
