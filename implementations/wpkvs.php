@@ -1,4 +1,6 @@
 <?php
+   require_once dirname(__FILE__) . "/../kvs.php";
+
    class WPKVS extends KVS
    {
       private $storage;

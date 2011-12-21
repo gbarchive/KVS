@@ -1,4 +1,6 @@
 <?php
+   require_once dirname(__FILE__) . "/../kvs.php";
+
    class CookieKVS extends KVS
    {
       private $storage;
@@ -13,7 +15,7 @@
          $this->domain = $domain;
          $this->storage = $storage;
          parent::__construct($onDemand);
-         
+
          $this->load();
       }
 

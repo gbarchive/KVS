@@ -1,4 +1,6 @@
 <?php
+   require_once dirname(__FILE__) . "/../kvs.php";
+
    // probably shouldn't use this one "on demand" will be slow.
    class FileKVS extends KVS
    {

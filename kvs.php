@@ -6,6 +6,10 @@
     * unit testing easier. Could be coupled with a distributed Key-Value implementation
     * for cool NoSQL problems.
     *
+    * This is meant to stay very simple, but it does have some simple "data security" features
+    * such as locking (doesn't allow any changes), disallowing overwrite (doesn't allow any overwriting
+    * changes - still allows clear/import/delete!) and on demand saving (writes changes immediately)
+    *
     * Copyright © 2011 Giuseppe Burtini <joe@truephp.com>. All rights reserved.
     */
 
@@ -28,6 +32,8 @@
    class KVS implements KeyValueStore {
       private $onDemand;
       private $data;
+      private $locked = false;
+      private $allowOverwrite = true;
 
       function __construct($onDemand = true)
       {
@@ -36,11 +42,19 @@
       }
 
       public function setOnDemand($od) { return $this->onDemand = $od; }
+      public function getOnDemand() { return $this->onDemand; }
+      public function setLocked($lock) { return $this->locked = $locked; }
+      public function getLocked() { return $this->locked; }
+      public function setAllowOverwrite($ow) { return $this->allowOverwrite = $ow; }
+      public function getAllowOverwrite() { return $this->allowOverwrite; }
 
       public function update() { trigger_error("Update function not implemented (don't use KVS directly).", E_USER_NOTICE); }
 
       public function clear()
       {
+         if($this->locked)
+            return false;
+
          $this->data = array();
       }
       public function sizeOf()
@@ -50,11 +64,20 @@
 
       public function get($key)
       {
-         return $this->data[$key];
+         if(isset($this->data[$key]))
+            return $this->data[$key];
+
+         return null;
       }
 
       public function put($key, $value)
       {
+         if($this->locked)
+            return false;
+
+         if(!$this->allowOverwrite && isset($this->data[$key]))
+            return false;
+
          $this->data[$key] = $value;
          if($this->onDemand)
             $this->update();
@@ -62,6 +85,9 @@
 
       public function delete($key)
       {
+         if($this->locked)
+            return false;
+
          unset($this->data[$key]);
          if($this->onDemand)
             $this->update();
@@ -77,6 +103,9 @@
       }
 
       public function import($kvs_export) {
+         if($this->locked)
+            return false;
+
          $import_function = "unserialize";
          if(defined("KVS_IMPORT_FUNCTION"))
          {
