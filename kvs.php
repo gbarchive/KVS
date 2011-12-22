@@ -30,10 +30,10 @@
    define("KVS_EXPORT_FUNCTION", "serialize");
 
    class KVS implements KeyValueStore {
-      private $onDemand;
-      private $data;
-      private $locked = false;
-      private $allowOverwrite = true;
+      protected $onDemand;
+      protected $data;
+      protected $locked = false;
+      protected $allowOverwrite = true;
 
       function __construct($onDemand = true)
       {
