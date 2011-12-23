@@ -35,6 +35,18 @@
          return $this->setDataMethod();
       }
 
+      public function get($key){
+         $result = parent::get($key);
+
+         return apply_filters("wpkvs_get", $result, $key);
+      }
+
+
+      public function put($key, $value){
+         $value = apply_filters("wpkvs_put", $value, $key);
+         $result = parent::put($key, $value);
+         return $result;
+      }
 
 
       /*
