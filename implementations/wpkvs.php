@@ -3,6 +3,7 @@
 
    class WPKVS extends KVS
    {
+      private $identifier;
       private $storage;
       private $item_id;
       private $storage_type;
@@ -10,6 +11,8 @@
       // allowed types are "option", "postmeta", "commentmeta"
       function __construct($storage = "wpkvs_", $type="option", $item_id=null, $onDemand = true)
       {
+         $this->identifier = uniqid();
+
          if($type != "option")
          {
             if($item_id === null || !is_numeric($item_id))
@@ -23,7 +26,7 @@
 
          $this->load();
       }
-
+      public function getIdentifier() { return $this->identifier; }
       public function load()
       {
          return ($this->data = $this->getDataMethod());
@@ -38,12 +41,12 @@
       public function get($key){
          $result = parent::get($key);
 
-         return apply_filters("wpkvs_get", $result, $key);
+         return apply_filters("wpkvs_get", $result, $key, $this->identifier);
       }
 
 
       public function put($key, $value){
-         $value = apply_filters("wpkvs_put", $value, $key);
+         $value = apply_filters("wpkvs_put", $value, $key, $this->identifier);
          $result = parent::put($key, $value);
          return $result;
       }
