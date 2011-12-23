@@ -38,15 +38,20 @@
          return $this->setDataMethod();
       }
 
-      public function get($key){
+      public function get($key, $suppress_filters=false){
          $result = parent::get($key);
 
-         return apply_filters("wpkvs_get", $result, $key, $this->identifier);
+         if(!$suppress_filters)
+            $result = apply_filters("wpkvs_get", $result, $key, $this->identifier);
+
+         return $result;
       }
 
 
-      public function put($key, $value){
-         $value = apply_filters("wpkvs_put", $value, $key, $this->identifier);
+      public function put($key, $value, $suppress_filters=false){
+         if(!$suppress_filters)
+            $value = apply_filters("wpkvs_put", $value, $key, $this->identifier);
+         
          $result = parent::put($key, $value);
          return $result;
       }
