@@ -1,35 +1,38 @@
 <?php
-   require_once dirname(__FILE__) . "/../kvs.php";
+   if(!class_exists("FileKVS")) {
 
-   // probably shouldn't use this one "on demand" will be slow.
-   class FileKVS extends KVS
-   {
-      private $storage;
+      require_once dirname(__FILE__) . "/../kvs.php";
 
-      function __construct($storage = "kvs.serializedata", $onDemand = false)
+      // probably shouldn't use this one "on demand" will be slow.
+      class FileKVS extends KVS
       {
-         $this->storage = $storage;
-         parent::__construct($onDemand);
+         private $storage;
 
-         $this->load();
-      }
-
-      public function load()
-      {
-         if(!is_readable($this->storage))
+         function __construct($storage = "kvs.serializedata", $onDemand = false)
          {
-            $this->data = array();
-            return false;
+            $this->storage = $storage;
+            parent::__construct($onDemand);
+
+            $this->load();
          }
 
-         $data = file_get_contents($this->storage);
-         return ($this->data = unserialize($data));
-      }
+         public function load()
+         {
+            if(!is_readable($this->storage))
+            {
+               $this->data = array();
+               return false;
+            }
 
-      public function save() { return $this->update(); }
-      public function update()
-      {
-         return file_put_contents($this->storage, serialize($this->data));
+            $data = file_get_contents($this->storage);
+            return ($this->data = unserialize($data));
+         }
+
+         public function save() { return $this->update(); }
+         public function update()
+         {
+            return file_put_contents($this->storage, serialize($this->data));
+         }
       }
    }
 ?>

@@ -1,40 +1,43 @@
 <?php
-   require_once dirname(__FILE__) . "/../kvs.php";
+    if(!class_exists("CookieKVS")) {
 
-   class CookieKVS extends KVS
-   {
-      private $storage;
-      private $expire;
-      private $path;
-      private $domain;
+      require_once dirname(__FILE__) . "/../kvs.php";
 
-      function __construct($storage = "cookiekvs", $expire="+30 days", $path="/", $domain=null, $onDemand = true)
+      class CookieKVS extends KVS
       {
-         $this->expire = strtotime($expire);
-         $this->path = $path;
-         $this->domain = $domain;
-         $this->storage = $storage;
-         parent::__construct($onDemand);
+         private $storage;
+         private $expire;
+         private $path;
+         private $domain;
 
-         $this->load();
-      }
-
-      public function load()
-      {
-         if(!isset($_COOKIE[$this->storage]))
+         function __construct($storage = "cookiekvs", $expire="+30 days", $path="/", $domain=null, $onDemand = true)
          {
-            $this->data = array();
-            return false;
+            $this->expire = strtotime($expire);
+            $this->path = $path;
+            $this->domain = $domain;
+            $this->storage = $storage;
+            parent::__construct($onDemand);
+
+            $this->load();
          }
 
-         $data = $_COOKIE[$this->storage];
-         return ($this->data = unserialize($data));
-      }
+         public function load()
+         {
+            if(!isset($_COOKIE[$this->storage]))
+            {
+               $this->data = array();
+               return false;
+            }
 
-      public function save() { return $this->update(); }
-      public function update()
-      {
-         return setcookie($this->storage, serialize($this->data), $this->expire, $this->path, $this->domain);
+            $data = $_COOKIE[$this->storage];
+            return ($this->data = unserialize($data));
+         }
+
+         public function save() { return $this->update(); }
+         public function update()
+         {
+            return setcookie($this->storage, serialize($this->data), $this->expire, $this->path, $this->domain);
+         }
       }
-   }
+    }
 ?>
