@@ -11,7 +11,8 @@
 
             /**
              * This KVS, unlike the non-fancy version, supports default values in a variety of places. Importantly, you can pass a defaults array to the
-             * constructor, and you can also pass it to the get method. The put method also supports a sanitizer method.
+             * constructor, and you can also pass it to the get method. The put method also supports a sanitizer method. It *is* intercompatible with the
+             * WPKVS (the data can be read/written by either).
              * 
              * @param string $storage
              * @param array $defaults
