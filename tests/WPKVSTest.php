@@ -29,4 +29,7 @@ function update_option($to, $new_value)
 
 require_once dirname(__FILE__) . '/../implementations/wpkvs.php';
 class WPKVSTest extends KVSTester { function __construct() { $this->instanceOf = "WPKVS"; } }
+
+require_once dirname(__FILE__) . '/../implementations/fancywpkvs.php';
+class FancyWPKVSTest extends KVSTester { function __construct() { $this->instanceOf = "FancyWPKVS"; } }
 ?>
