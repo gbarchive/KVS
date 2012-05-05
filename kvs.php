@@ -4,11 +4,16 @@
     * The idea here is to abstract storing data for simple projects that are dependent
     * on other products for storing their data (MySQL, WordPress options, etc.). Makes
     * unit testing easier. Could be coupled with a distributed Key-Value implementation
-    * for cool NoSQL problems.
+    * for some NoSQL-type problems.
     *
+	* You should note that if you do plan to use this with a RDBMS (MySQL, etc.), you are
+	* probably doing something wrong and should consider your use case in more detail.
+	*
     * This is meant to stay very simple, but it does have some simple "data security" features
     * such as locking (doesn't allow any changes), disallowing overwrite (doesn't allow any overwriting
     * changes - still allows clear/import/delete!) and on demand saving (writes changes immediately)
+	* Locking does NOT persist over import/export. Import/export use serialize/unserialize in the basic
+	* implementation, which is hugely overkill for many uses.
     *
     * Copyright © 2011 Giuseppe Burtini <joe@truephp.com>. All rights reserved.
     */
