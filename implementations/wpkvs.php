@@ -12,7 +12,20 @@
             private $item_id;
             private $storage_type;
 
-            // allowed types are "option", "postmeta", "commentmeta"
+            /**
+             * Create a new WordPress key-value store. This is sort of "three" key value stores in one, designated by the $type option.
+             * $storage indicates the name of the key in WordPress's key-value store to be used, make sure this is unique among all applications
+             * running on your WordPress site. $type indicates which table to store the KVS in: option, postmeta or commentmeta; if you choose
+             * a type that is not option, you must specify an item_id as well. 
+             * 
+             * This KVS relies on WordPress to be loaded already, and calls two filters wpkvs_put/wpkvs_get on put/get method calls respectively, 
+             * as such, the put/get methods have an additional optional parameter which indicates that filters should be suppressed.             * 
+             * 
+             * @param type $storage
+             * @param type $type
+             * @param type $item_id
+             * @param type $onDemand 
+             */
             function __construct($storage = "wpkvs_", $type="option", $item_id=null, $onDemand = true)
             {
                $this->identifier = uniqid();
@@ -24,7 +37,7 @@
                }
 
                $this->storage = $storage;
-               $this->item_id = $item_id;
+               $this->item_id = intval($item_id);
                $this->storage_type = $type;
                parent::__construct($onDemand);
 
